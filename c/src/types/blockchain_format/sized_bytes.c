@@ -12,10 +12,12 @@ struct Bytes32 bytes32_from_hex(const char *hex, int *error_code)
 {
     struct Bytes32 out;
     int result = bytes_from_hex(out.value, ARRAY_SIZE(out.value), hex);
-    if (error_code)
+    if (error_code) {
         *error_code = result;
-    else
-        abort();
+    } else {
+        if (0 != result)
+            abort();
+    }
     return out;
 }
 
