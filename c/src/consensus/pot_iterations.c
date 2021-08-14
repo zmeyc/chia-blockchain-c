@@ -20,3 +20,12 @@ uint64_t calculate_sp_interval_iters(const struct ConsensusConstants *constants,
     return sub_slot_iters / constants->num_sps_per_sub_slot;
 }
 
+struct CalculateSPItersResult calculate_sp_iters(const struct ConsensusConstants *constants, uint64_t sub_slot_iters, uint8_t signage_point_index)
+{
+    if (signage_point_index >= constants->num_sps_per_sub_slot)
+        return (struct CalculateSPItersResult) { .code = CSPI_SP_INDEX_TOO_HIGH };
+    return (struct CalculateSPItersResult) {
+        .value = calculate_sp_interval_iters(constants, sub_slot_iters) * signage_point_index
+    };
+}
+
