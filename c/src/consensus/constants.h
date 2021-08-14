@@ -13,7 +13,7 @@ struct ConsensusConstants {
     // Max number of blocks that can be infused into a sub-slot.
     // Note: this must be less than SUB_EPOCH_BLOCKS/2, and > SLOT_BLOCKS_TARGET
     uint32_t max_sub_slot_blocks;
-    uint32_t num_sps_sub_slot; // The number of signage points per sub-slot (including the 0th sp at the sub-slot start)
+    uint32_t num_sps_per_sub_slot; // The number of signage points per sub-slot (including the 0th sp at the sub-slot start)
 
     uint64_t sub_slot_iters_starting; // The sub_slot_iters for the first epoch
     uint128_t difficulty_constant_factor; // Multiplied by the difficulty to get iterations

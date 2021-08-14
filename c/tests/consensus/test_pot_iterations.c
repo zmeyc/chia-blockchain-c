@@ -9,7 +9,7 @@ static struct ConsensusConstants test_constants;
 const char *test_pot_iterations_init()
 {
     test_constants = get_default_constants();
-    test_constants.num_sps_sub_slot = 32;
+    test_constants.num_sps_per_sub_slot = 32;
     test_constants.sub_slot_time_target = 300;
     return NULL;
 }
