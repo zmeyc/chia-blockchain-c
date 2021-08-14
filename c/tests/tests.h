@@ -25,10 +25,16 @@ extern int tests_run;
     do { \
         printf("=== TEST SUITE: %s\n", (name)); \
         fflush(stdout); \
+        const char *init_message = test##_init(); \
+        if (init_message) \
+            return (init_message); \
         const char *message = test(); \
         test_suites_run++; \
         if (message) \
             return (message); \
+        const char *cleanup_message = test##_cleanup(); \
+        if (cleanup_message) \
+            return (cleanup_message); \
     } while (0)
 
 #define t_run(name, test) \

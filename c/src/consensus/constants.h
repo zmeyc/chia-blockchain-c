@@ -36,7 +36,7 @@ struct ConsensusConstants {
     // We override this value based on the chain being run (testnet0, testnet1, mainnet, etc)
     struct Bytes32 genesis_challenge;
     // Forks of chia should change this value to provide replay attack protection
-    uint8_t *agg_sig_me_additional_data;
+    struct Bytes32 agg_sig_me_additional_data;
     struct Bytes32 genesis_pre_farm_pool_puzzle_hash; // The block at height must pay out to this pool puzzle hash
     struct Bytes32 genesis_pre_farm_farmer_puzzle_hash; // The block at height must pay out to this farmer puzzle hash
     int max_vdf_witness_size; // The maximum number of classgroup elements within an n-wesolowski proof

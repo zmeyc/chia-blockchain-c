@@ -2,11 +2,9 @@
 
 #include <stdlib.h>
 
-struct ConsensusConstants default_constants;
-
-void init_default_constants()
+struct ConsensusConstants get_default_constants()
 {
-    default_constants = (struct ConsensusConstants) {
+    return (struct ConsensusConstants) {
         .slot_blocks_target = 32,
         .min_blocks_per_challenge_block = 16, // Must be less than half of SLOT_BLOCKS_TARGET
         .max_sub_slot_blocks = 128, // Must be less than half of SUB_EPOCH_BLOCKS
@@ -34,7 +32,10 @@ void init_default_constants()
         // Default used for tests is std_hash(b'')
         .genesis_challenge = bytes32_from_hex("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", NULL),
         // Forks of chia should change this value to provide replay attack protection. This is set to mainnet genesis chall
-        .agg_sig_me_additional_data = bytes_from_hex_alloc("ccd5bb71183532bff220ba46c268991a3ff07eb358e8255a65c30a2dce0e5fbb"),
+        .agg_sig_me_additional_data = bytes32_from_hex(
+            "ccd5bb71183532bff220ba46c268991a3ff07eb358e8255a65c30a2dce0e5fbb",
+            NULL
+        ),
         .genesis_pre_farm_pool_puzzle_hash = bytes32_from_hex(
             "d23da14695a188ae5708dd152263c4db883eb27edeb936178d4d988b8f3ce5fc",
             NULL
@@ -61,13 +62,5 @@ void init_default_constants()
         .max_generator_ref_list_size = 512,  // Number of references allowed in the block generator ref list
         .pool_sub_slot_iters = 37600000000ull,  // iters limit * NUM_SPS
     };
-
-    if (!default_constants.agg_sig_me_additional_data)
-        abort();
-}
-
-void cleanup_default_constants()
-{
-    free(default_constants.agg_sig_me_additional_data);
 }
 

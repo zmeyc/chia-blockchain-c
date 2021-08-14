@@ -2,7 +2,5 @@
 
 #include "constants.h"
 
-extern const struct ConsensusConstants default_constants;
-
-void init_default_constants();
+struct ConsensusConstants get_default_constants();
 

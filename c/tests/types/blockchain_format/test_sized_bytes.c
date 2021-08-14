@@ -95,6 +95,16 @@ static const char *test_bytes_alloc()
     return NULL;
 }
 
+const char *test_sized_bytes_init()
+{
+    return NULL;
+}
+
+const char *test_sized_bytes_cleanup()
+{
+    return NULL;
+}
+
 const char *test_sized_bytes()
 {
     t_run("bytes32_zeros", test_bytes32_zeros);

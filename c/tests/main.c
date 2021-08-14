@@ -2,10 +2,12 @@
 
 #include "tests.h"
 
+#include "consensus/test_pot_iterations.h"
 #include "types/blockchain_format/test_sized_bytes.h"
 
 static const char *all_tests()
 {
+    t_suite_run("pot_iterations", test_pot_iterations);
     t_suite_run("sized_bytes", test_sized_bytes);
 
     return 0;
