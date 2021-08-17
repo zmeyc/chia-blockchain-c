@@ -9,10 +9,10 @@ TESTS_DEP = $(TESTS_OBJ:%.o=%.d)
 CC=gcc
 AR=ar
 
-CFLAGS = -std=c99 -pedantic -g -O2 -MMD -Wall -Werror
+CFLAGS = -std=c11 -pedantic -g -O2 -MMD -Wall -Werror
 LFLAGS = -shared
 
-TESTS_CFLAGS = -std=c99 -pedantic -g -O2 -MMD -Wall -Werror -Itests -Isrc
+TESTS_CFLAGS = -std=c11 -pedantic -g -O2 -MMD -Wall -Werror -Itests -Isrc
 TESTS_LFLAGS = -Lobj -lchia
 
 all: obj/libchia.so obj/libchia.a obj_tests/chia-test

@@ -25,3 +25,22 @@ struct CalculateSPItersResult {
 };
 struct CalculateSPItersResult calculate_sp_iters(const struct ConsensusConstants *constants, uint64_t sub_slot_iters, uint8_t signage_point_index);
 
+struct CalculateIPItersResult {
+    enum {
+        CIPI_SUCCESS,
+        CIPI_SP_INDEX_TOO_HIGH,
+        CIPI_INVALID_SP_ITERS_FOR_SSI, // Invalid sp_iters for this sub_slot_iters
+        // Required_iters is not below the sp_interval_iters or not >0
+        CIPI_INVALID_REQUIRED_ITERS,
+    } code;
+    union {
+        uint64_t value;
+        struct InvalidSPItersForSSI {
+            uint64_t sp_iters;
+        } invalid_sp_iters_for_ssi;
+        struct InvalidRequiredIters {
+            uint64_t sp_interval_iters;
+        } invalid_required_iters;
+    };
+};
+
