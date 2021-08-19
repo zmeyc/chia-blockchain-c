@@ -9,10 +9,10 @@ struct ConsensusConstants get_default_constants()
         .min_blocks_per_challenge_block = 16, // Must be less than half of SLOT_BLOCKS_TARGET
         .max_sub_slot_blocks = 128, // Must be less than half of SUB_EPOCH_BLOCKS
         .num_sps_per_sub_slot = 64, // Must be a power of 2
-        .sub_slot_iters_starting = 2ull ^ 27,
+        .sub_slot_iters_starting = 1ull << 27,
         // DIFFICULTY_STARTING is the starting difficulty for the first epoch, which is then further
         // multiplied by another factor of DIFFICULTY_CONSTANT_FACTOR, to be used in the VDF iter calculation formula.
-        .difficulty_constant_factor = (uint128_t)2 ^ 67,
+        .difficulty_constant_factor = (uint128_t)1 << 67,
         .difficulty_starting = 7,
         .difficulty_change_max_factor = 3, // The next difficulty is truncated to range [prev / FACTOR, prev * FACTOR]
         // These 3 constants must be changed at the same time

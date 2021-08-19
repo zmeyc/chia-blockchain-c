@@ -4,11 +4,13 @@
 
 #include "consensus/test_pot_iterations.h"
 #include "types/blockchain_format/test_sized_bytes.h"
+#include "util/test_gmp_types.h"
 
 static const char *all_tests()
 {
     t_suite_run("pot_iterations", test_pot_iterations);
     t_suite_run("sized_bytes", test_sized_bytes);
+    t_suite_run("gmp_types", test_gmp_types);
 
     return 0;
 }

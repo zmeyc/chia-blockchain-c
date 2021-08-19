@@ -1,9 +1,16 @@
 #include <assert.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "pot_iterations.h"
+#include <gmp.h>
+
+#include "../util/gmp_types.h"
+#include "../util/hash.h"
+#include "../util/math_util.h"
 
 #include "constants.h"
+#include "pos_quality.h"
+#include "pot_iterations.h"
 
 struct IsOverflowBlockResult is_overflow_block(const struct ConsensusConstants *constants, uint8_t signage_point_index)
 {
@@ -68,3 +75,60 @@ struct CalculateIPItersResult calculate_ip_iters(
         .value = (sp_iters + constants->num_sp_intervals_extra * sp_interval_iters + required_iters) % sub_slot_iters
     };
 }
+
+// Calculates the number of iterations from the quality. This is derives as the difficulty times the constant factor
+// times a random number between 0 and 1 (based on quality string), divided by plot size.
+uint64_t calculate_iterations_quality(
+    uint128_t difficulty_constant_factor,
+    const struct Bytes32 *quality_string,
+    int size,
+    uint64_t difficulty,
+    const struct Bytes32 *cc_sp_output_hash
+) {
+    uint8_t buf[sizeof quality_string->value + sizeof cc_sp_output_hash->value];
+    memcpy(buf,
+        quality_string->value, sizeof quality_string->value);
+    memcpy(buf + sizeof quality_string->value,
+        cc_sp_output_hash->value, sizeof cc_sp_output_hash->value);
+    struct Bytes32 sp_quality_string = std_hash(buf, sizeof buf);
+
+    mpz_t difficulty_constant_factor_mpz;
+    mpz_init(difficulty_constant_factor_mpz);
+    mpz_set_ui128(difficulty_constant_factor_mpz, difficulty_constant_factor);
+
+    mpz_t sp_quality;
+    mpz_init(sp_quality);
+    mpz_set_ubytes(
+        sp_quality,
+        sp_quality_string.value, sizeof sp_quality_string.value,
+        MPZ_ENDIAN_MOST_SIGNIFICANT_FIRST
+    );
+
+    mpz_t expected_plot_size;
+    mpz_init(expected_plot_size);
+    mpz_set_ui64(expected_plot_size, _expected_plot_size(size));
+
+    mpz_t res;
+    mpz_init(res);
+    mpz_set_ui64(res, difficulty);
+    mpz_mul(res, res, difficulty_constant_factor_mpz);
+    mpz_mul(res, res, sp_quality);
+
+    mpz_t denom;
+    mpz_init(denom);
+    mpz_ui_pow_ui(denom, 2, 256);
+    mpz_mul(denom, denom, expected_plot_size);
+
+    mpz_tdiv_q(res, res, denom);
+
+    uint64_t iters = mpz_get_ui64(res);
+
+    mpz_clear(denom);
+    mpz_clear(res);
+    mpz_clear(expected_plot_size);
+    mpz_clear(sp_quality);
+    mpz_clear(difficulty_constant_factor_mpz);
+
+    return MAX(iters, 1);
+}
+

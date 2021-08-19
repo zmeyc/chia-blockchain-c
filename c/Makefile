@@ -9,11 +9,14 @@ TESTS_DEP = $(TESTS_OBJ:%.o=%.d)
 CC=gcc
 AR=ar
 
-CFLAGS = -std=c11 -pedantic -g -O2 -MMD -Wall -Werror
-LFLAGS = -shared
+CFLAGS_COMMON = -Ilibroot/include
+LFLAGS_COMMON = -Llibroot/lib -lrelic_s -lgmp
 
-TESTS_CFLAGS = -std=c11 -pedantic -g -O2 -MMD -Wall -Werror -Itests -Isrc
-TESTS_LFLAGS = -Lobj -lchia
+CFLAGS = -std=c11 -pedantic -g -O2 -MMD -Wall -Werror $(CFLAGS_COMMON)
+LFLAGS = -shared $(LFLAGS_COMMON)
+
+TESTS_CFLAGS = -std=c11 -pedantic -g -O2 -MMD -Wall -Werror -Itests -Isrc $(CFLAGS_COMMON)
+TESTS_LFLAGS = -Lobj -lchia $(LFLAGS_COMMON)
 
 all: obj/libchia.so obj/libchia.a obj_tests/chia-test
 

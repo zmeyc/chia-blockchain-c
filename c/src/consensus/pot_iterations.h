@@ -44,3 +44,18 @@ struct CalculateIPItersResult {
     };
 };
 
+struct CalculateIPItersResult calculate_ip_iters(
+    const struct ConsensusConstants *constants,
+    uint64_t sub_slot_iters,
+    uint8_t signage_point_index,
+    uint64_t required_iters
+);
+
+uint64_t calculate_iterations_quality(
+    uint128_t difficulty_constant_factor,
+    const struct Bytes32 *quality_string,
+    int size,
+    uint64_t difficulty,
+    const struct Bytes32 *cc_sp_output_hash
+);
+
