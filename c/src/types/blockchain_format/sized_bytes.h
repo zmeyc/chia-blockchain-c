@@ -9,6 +9,12 @@ struct Bytes32 {
 };
 #pragma pack(pop)
 
+#pragma pack(push, 1)
+struct Bytes100 {
+    uint8_t value[100];
+};
+#pragma pack(pop)
+
 uint8_t *bytes_from_hex_alloc(const char *hex);
 
 struct Bytes32 bytes32_from_hex(const char *hex, int *error_code);
