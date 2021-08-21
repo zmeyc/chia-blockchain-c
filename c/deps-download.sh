@@ -25,4 +25,5 @@ dep_clone() {
 }
 
 dep_clone "bls-signatures" "https://github.com/Chia-Network/bls-signatures.git" "1.0.5"
+dep_clone "chiavdf" "https://github.com/Chia-Network/chiavdf.git" "1.0.2"
 
