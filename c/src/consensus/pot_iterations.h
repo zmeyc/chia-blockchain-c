@@ -23,6 +23,7 @@ struct CalculateSPItersResult {
     } code;
     uint64_t value;
 };
+
 struct CalculateSPItersResult calculate_sp_iters(const struct ConsensusConstants *constants, uint64_t sub_slot_iters, uint8_t signage_point_index);
 
 struct CalculateIPItersResult {
